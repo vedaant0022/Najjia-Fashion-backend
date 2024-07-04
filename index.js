@@ -28,7 +28,7 @@ const transporter = nodemailer.createTransport({
       pass: 'qdgcydiuuqieryny',
     },
   });
-  app.post('/test', async (req, res) => {
+  app.post('/signup', async (req, res) => {
     const { username, email, password, phoneNumber } = req.body;
   
     if (!email || !password) {
@@ -43,7 +43,9 @@ const transporter = nodemailer.createTransport({
       }
   
       const newUser = new User({ username, email, password, phoneNumber });
+      
       await newUser.save();
+        res.status(201).json({ message: 'User registered successfully.', user: newUser });
   
       const OTP = Math.floor(1000 + Math.random() * 9000).toString();
       const otpEntry = new Otp({ email, otp: OTP });
